@@ -330,12 +330,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const submitButton = document.getElementById("cvSubmitButton");
     const cvMessage = document.getElementById("cvRequestMessage");
 
-    const SUPABASE_URL =
-      "https://dwltwuycvszpeyzrhaar.supabase.co";
+    const SUPABASE_URL ="https://dwltwuycvszpeyzrhaar.supabase.co";
 
     // IMPORTANT: Replace this with your Supabase publishable key.
-    const SUPABASE_PUBLISHABLE_KEY =
-      "sb_publishable_5EMeiHt8dUeq53ZPKhTZtg_9pezkhjO";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_5EMeiHt8dUeq53ZPKhTZtg_9pezkhjO";
 
     cvRequestForm.addEventListener("submit", async (event) => {
       event.preventDefault();
