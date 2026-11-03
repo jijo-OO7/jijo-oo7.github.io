@@ -917,3 +917,214 @@ button {
     animation-duration: 0.01ms !important;
   }
 }
+
+
+/* =========================================
+   PURPLE — INTERACTIVE CAT COMPANION
+   ========================================= */
+
+.purple-companion {
+  position: fixed;
+  z-index: 999;
+  right: 25px;
+  bottom: 18px;
+  width: 150px;
+  height: 175px;
+  pointer-events: none;
+  transition: right 1.2s ease, bottom 1.2s ease;
+}
+
+/* SPEECH BUBBLE */
+
+.purple-bubble {
+  position: absolute;
+  right: 0;
+  bottom: 145px;
+  width: 205px;
+  padding: 15px 17px;
+  background: white;
+  border: 1px solid #e8ddff;
+  border-radius: 13px;
+  box-shadow: 0 10px 35px rgba(47, 24, 95, 0.12);
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 250ms ease, transform 250ms ease;
+  pointer-events: auto;
+}
+
+.purple-bubble::after {
+  content: "";
+  position: absolute;
+  right: 32px;
+  bottom: -8px;
+  width: 14px;
+  height: 14px;
+  background: white;
+  border-right: 1px solid #e8ddff;
+  border-bottom: 1px solid #e8ddff;
+  transform: rotate(45deg);
+}
+
+.purple-bubble-label {
+  color: #6226fb;
+  font-size: 8px;
+  font-weight: 850;
+  letter-spacing: 1.6px;
+}
+
+.purple-bubble p {
+  margin: 6px 12px 0 0;
+  color: #29233c;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.purple-close {
+  position: absolute;
+  top: 7px;
+  right: 9px;
+  border: 0;
+  background: transparent;
+  color: #9992a8;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.purple-close:hover {
+  color: #6226fb;
+}
+
+/* CAT BUTTON */
+
+.purple-cat {
+  position: absolute;
+  right: 4px;
+  bottom: 0;
+  width: 120px;
+  height: 120px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  animation: purple-idle 3s ease-in-out infinite;
+}
+
+.purple-cat svg {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  overflow: visible;
+}
+
+.purple-cat:hover {
+  animation-play-state: paused;
+}
+
+.purple-cat:hover svg {
+  transform: translateY(-7px) rotate(-4deg);
+}
+
+.cat-tail {
+  transform-origin: 89px 74px;
+  animation: purple-tail 2s ease-in-out infinite;
+}
+
+.cat-shadow {
+  position: absolute;
+  z-index: 1;
+  bottom: 1px;
+  left: 25px;
+  width: 72px;
+  height: 12px;
+  background: rgba(53, 28, 101, 0.13);
+  border-radius: 50%;
+  filter: blur(5px);
+}
+
+/* WALKING STATE */
+
+.purple-companion.is-walking .purple-cat {
+  animation: purple-walk 500ms ease-in-out infinite alternate;
+}
+
+.purple-companion.is-walking .cat-tail {
+  animation-duration: 500ms;
+}
+
+/* HIDDEN SPEECH */
+
+.purple-bubble.is-hidden {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+/* DISMISSED STATE */
+
+.purple-companion.is-dismissed {
+  display: none;
+}
+
+/* ANIMATIONS */
+
+@keyframes purple-idle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes purple-tail {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(15deg);
+  }
+}
+
+@keyframes purple-walk {
+  from {
+    transform: translateY(0) rotate(-5deg);
+  }
+
+  to {
+    transform: translateY(-5px) rotate(5deg);
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 620px) {
+  .purple-companion {
+    right: 5px;
+    bottom: 8px;
+    transform: scale(0.82);
+    transform-origin: bottom right;
+  }
+
+  .purple-bubble {
+    width: 185px;
+  }
+}
+
+/* REDUCED MOTION ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+  .purple-cat,
+  .cat-tail {
+    animation: none !important;
+  }
+
+  .purple-bubble,
+  .purple-companion {
+    transition: none !important;
+  }
+}
+
