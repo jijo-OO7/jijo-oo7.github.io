@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -34,30 +33,25 @@
         <span></span>
       </button>
 
-     
-<nav id="primary-nav" class="nav" aria-label="Main navigation">
-  <a href="#work">Work</a>
-  <a href="#writing">Writing</a>
-  <a href="#about">About</a>
-  <a class="nav-cta" href="/assets/Suman-Mandal-CV.pdf"
-    target="_blank" rel="noopener">
-    CV <span aria-hidden="true">↗</span>
-  </a>
+      <nav id="primary-nav" class="nav" aria-label="Main navigation">
+        <a href="#work">Work</a>
+        <a href="#writing">Writing</a>
+        <a href="#about">About</a>
+        <a class="nav-cta" href="#request-cv">
+          Request my CV <span aria-hidden="true">↗</span>
+        </a>
 
-  <!-- Theme toggle currently here -->
-  
-<button
-  class="theme-toggle"
-  id="themeToggle"
-  type="button"
-  aria-label="Switch to dark mode"
-  title="Switch theme"
->
-  <span id="themeIcon" aria-hidden="true">🌙</span>
-</button>
-
-</nav>
-
+        <!-- Theme toggle -->
+        <button
+          class="theme-toggle"
+          id="themeToggle"
+          type="button"
+          aria-label="Switch to dark mode"
+          title="Switch theme"
+        >
+          <span id="themeIcon" aria-hidden="true">🌙</span>
+        </button>
+      </nav>
     </div>
   </header>
 
@@ -82,20 +76,17 @@
           open-source projects ship reliable software.
         </p>
 
-     
-<div class="hero-actions">
-  <a class="button button-primary"
-    href="https://github.com/jijo-OO7"
-    target="_blank" rel="noopener">
-    Explore my GitHub <span aria-hidden="true">↗</span>
-  </a>
+        <div class="hero-actions">
+          <a class="button button-primary"
+            href="https://github.com/jijo-OO7"
+            target="_blank" rel="noopener">
+            Explore my GitHub <span aria-hidden="true">↗</span>
+          </a>
 
-  <a class="text-link"
-    href="#work">
-    View selected work <span aria-hidden="true">↓</span>
-  </a>
-</div>
-
+          <a class="text-link" href="#work">
+            View selected work <span aria-hidden="true">↓</span>
+          </a>
+        </div>
 
         <div class="hero-meta">
           <span>Based in Durgapur, India</span>
@@ -457,12 +448,74 @@
 
             <a href="mailto:sumanmandal.dev@gmail.com">Email ↗</a><br />
 
-            <a href="/assets/Suman-Mandal-CV.pdf"
-              target="_blank" rel="noopener">Curriculum vitae ↗</a>
+            <a href="#request-cv">Request my CV ↗</a>
           </p>
         </div>
 
       </div>
+    </section>
+
+    <!-- CV ACCESS REQUEST -->
+    <section class="section shell" id="request-cv">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">CURRICULUM VITAE</p>
+          <h2>Request my CV.</h2>
+        </div>
+
+        <p class="section-note">
+          Share a few details about yourself and your opportunity.
+          I'll review your request and send access to my CV by email
+          if approved.
+        </p>
+      </div>
+
+      <form id="cvRequestForm" class="cv-request-form">
+        <div class="cv-form-grid">
+          <label>
+            Full name *
+            <input type="text" name="full_name"
+              maxlength="120" required
+              placeholder="Your full name">
+          </label>
+
+          <label>
+            Work email *
+            <input type="email" name="email"
+              maxlength="254" required
+              placeholder="you@company.com">
+          </label>
+
+          <label>
+            Company / Organization *
+            <input type="text" name="company"
+              maxlength="120" required
+              placeholder="Your organization">
+          </label>
+
+          <label>
+            Job title
+            <input type="text" name="job_title"
+              maxlength="120"
+              placeholder="e.g. Engineering Manager">
+          </label>
+        </div>
+
+        <label>
+          Purpose of request *
+          <textarea name="purpose"
+            maxlength="1000" rows="4" required
+            placeholder="Briefly tell me about the opportunity..."></textarea>
+        </label>
+
+        <button class="button button-primary"
+          id="cvSubmitButton" type="submit">
+          Submit CV request <span aria-hidden="true">↗</span>
+        </button>
+
+        <p id="cvRequestMessage"
+          role="status" aria-live="polite"></p>
+      </form>
     </section>
 
     <!-- CONTACT -->
@@ -498,121 +551,120 @@
     </div>
   </footer>
 
+  <!-- MEOW: INTERACTIVE VIRTUAL PET -->
+  <div class="meow-pet" id="meowPet">
 
-<!-- MEOW: INTERACTIVE VIRTUAL PET -->
-<div class="meow-pet" id="meowPet">
-
-  <div class="meow-message" id="meowMessage" role="status">
-    <span class="meow-label">MEOW SAYS</span>
-    <button id="meowClose" aria-label="Close message">×</button>
-    <p id="meowText">Hello human. What are we investigating today?</p>
-  </div>
-
-  <div class="meow-stage" id="meowStage">
-
-    <!-- PLAY BALL -->
-    <button class="meow-ball" id="meowBall"
-      aria-label="Play with Meow">
-      <span></span>
-    </button>
-
-    <!-- SLEEPING PILLOW -->
-    <div class="meow-pillow">
-      <span></span>
+    <div class="meow-message" id="meowMessage" role="status">
+      <span class="meow-label">MEOW SAYS</span>
+      <button id="meowClose" aria-label="Close message">×</button>
+      <p id="meowText">Hello human. What are we investigating today?</p>
     </div>
 
-    <!-- CAT -->
-    <button class="meow-cat" id="meowCat"
-      aria-label="Meow the virtual pet. Click to interact.">
+    <div class="meow-stage" id="meowStage">
 
-      <svg viewBox="0 0 160 170"
-        xmlns="http://www.w3.org/2000/svg">
+      <!-- PLAY BALL -->
+      <button class="meow-ball" id="meowBall"
+        aria-label="Play with Meow">
+        <span></span>
+      </button>
 
-        <!-- Tail -->
-        <path class="meow-tail"
-          d="M112 132 Q150 130 143 101 Q140 87 127 96"
-          fill="none" stroke="#6226fb"
-          stroke-width="12" stroke-linecap="round"/>
+      <!-- SLEEPING PILLOW -->
+      <div class="meow-pillow">
+        <span></span>
+      </div>
 
-        <!-- Body -->
-        <ellipse cx="80" cy="126" rx="43" ry="35"
-          fill="#713bfa"/>
+      <!-- CAT -->
+      <button class="meow-cat" id="meowCat"
+        aria-label="Meow the virtual pet. Click to interact.">
 
-        <!-- Belly -->
-        <ellipse cx="80" cy="131" rx="23" ry="24"
-          fill="#bca1ff"/>
+        <svg viewBox="0 0 160 170"
+          xmlns="http://www.w3.org/2000/svg">
 
-        <!-- Feet -->
-        <ellipse cx="55" cy="151" rx="19" ry="9"
-          fill="#5122dc"/>
-        <ellipse cx="104" cy="151" rx="19" ry="9"
-          fill="#5122dc"/>
+          <!-- Tail -->
+          <path class="meow-tail"
+            d="M112 132 Q150 130 143 101 Q140 87 127 96"
+            fill="none" stroke="#6226fb"
+            stroke-width="12" stroke-linecap="round"/>
 
-        <!-- Head -->
-        <path
-          d="M34 65 L39 13 L69 39
-             Q80 33 91 39 L121 13
-             L126 65 Q136 105 80 111
-             Q24 105 34 65Z"
-          fill="#865aff"/>
+          <!-- Body -->
+          <ellipse cx="80" cy="126" rx="43" ry="35"
+            fill="#713bfa"/>
 
-        <!-- Inner ears -->
-        <path d="M47 27 L44 57 L64 43Z"
-          fill="#e4d5ff"/>
-        <path d="M112 27 L115 57 L95 43Z"
-          fill="#e4d5ff"/>
+          <!-- Belly -->
+          <ellipse cx="80" cy="131" rx="23" ry="24"
+            fill="#bca1ff"/>
 
-        <!-- Eye whites -->
-        <ellipse cx="61" cy="69" rx="10" ry="12"
-          fill="white"/>
-        <ellipse cx="99" cy="69" rx="10" ry="12"
-          fill="white"/>
+          <!-- Feet -->
+          <ellipse cx="55" cy="151" rx="19" ry="9"
+            fill="#5122dc"/>
+          <ellipse cx="104" cy="151" rx="19" ry="9"
+            fill="#5122dc"/>
 
-        <!-- Pupils: JavaScript will move these -->
-        <g id="meowEyes">
-          <circle class="meow-pupil" cx="63" cy="69" r="5"
-            fill="#24123f"/>
-          <circle class="meow-pupil" cx="101" cy="69" r="5"
-            fill="#24123f"/>
-        </g>
+          <!-- Head -->
+          <path
+            d="M34 65 L39 13 L69 39
+               Q80 33 91 39 L121 13
+               L126 65 Q136 105 80 111
+               Q24 105 34 65Z"
+            fill="#865aff"/>
 
-        <!-- Nose -->
-        <path d="M76 86 Q80 81 84 86 Q80 92 76 86Z"
-          fill="#ffb6d9"/>
+          <!-- Inner ears -->
+          <path d="M47 27 L44 57 L64 43Z"
+            fill="#e4d5ff"/>
+          <path d="M112 27 L115 57 L95 43Z"
+            fill="#e4d5ff"/>
 
-        <!-- Mouth -->
-        <path d="M80 91 Q74 99 68 94
-                 M80 91 Q86 99 92 94"
-          fill="none" stroke="#32165e"
-          stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Eye whites -->
+          <ellipse cx="61" cy="69" rx="10" ry="12"
+            fill="white"/>
+          <ellipse cx="99" cy="69" rx="10" ry="12"
+            fill="white"/>
 
-        <!-- Whiskers -->
-        <path d="M48 85 L23 79 M48 92 L22 96
-                 M112 85 L137 79 M112 92 L138 96"
-          fill="none" stroke="#e4d8ff"
-          stroke-width="2" stroke-linecap="round"/>
+          <!-- Pupils: JavaScript will move these -->
+          <g id="meowEyes">
+            <circle class="meow-pupil" cx="63" cy="69" r="5"
+              fill="#24123f"/>
+            <circle class="meow-pupil" cx="101" cy="69" r="5"
+              fill="#24123f"/>
+          </g>
 
-        <!-- Blush -->
-        <ellipse cx="46" cy="88" rx="7" ry="4"
-          fill="#f5a9d5" opacity=".7"/>
-        <ellipse cx="114" cy="88" rx="7" ry="4"
-          fill="#f5a9d5" opacity=".7"/>
+          <!-- Nose -->
+          <path d="M76 86 Q80 81 84 86 Q80 92 76 86Z"
+            fill="#ffb6d9"/>
 
-      </svg>
+          <!-- Mouth -->
+          <path d="M80 91 Q74 99 68 94
+                   M80 91 Q86 99 92 94"
+            fill="none" stroke="#32165e"
+            stroke-width="2.5" stroke-linecap="round"/>
 
-    </button>
+          <!-- Whiskers -->
+          <path d="M48 85 L23 79 M48 92 L22 96
+                   M112 85 L137 79 M112 92 L138 96"
+            fill="none" stroke="#e4d8ff"
+            stroke-width="2" stroke-linecap="round"/>
 
-    <!-- SLEEP INDICATOR -->
-    <div class="meow-sleep-symbol" aria-hidden="true">
-      Z<sup>z</sup>
+          <!-- Blush -->
+          <ellipse cx="46" cy="88" rx="7" ry="4"
+            fill="#f5a9d5" opacity=".7"/>
+          <ellipse cx="114" cy="88" rx="7" ry="4"
+            fill="#f5a9d5" opacity=".7"/>
+
+        </svg>
+
+      </button>
+
+      <!-- SLEEP INDICATOR -->
+      <div class="meow-sleep-symbol" aria-hidden="true">
+        Z<sup>z</sup>
+      </div>
+
     </div>
 
+    <span class="meow-caption">MEOW · YOUR TINY COMPANION</span>
+
   </div>
-
-  <span class="meow-caption">MEOW · YOUR TINY COMPANION</span>
-
-</div>
-<!-- END MEOW -->
+  <!-- END MEOW -->
 
   <script src="/script.js"></script>
 </body>
