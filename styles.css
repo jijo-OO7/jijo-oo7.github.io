@@ -1416,3 +1416,174 @@ button {
   }
 }
 
+
+/* =========================================
+   THEME SYSTEM — LIGHT & DARK MODE
+   ========================================= */
+
+:root {
+  color-scheme: light;
+
+  --page-bg: #ffffff;
+  --surface-bg: #f8f7fc;
+  --text-primary: #24123f;
+  --text-secondary: #716b7d;
+  --border-color: #e9e5f1;
+  --accent: #713bfa;
+  --accent-hover: #5622d8;
+  --card-bg: #ffffff;
+  --nav-bg: rgba(255, 255, 255, .9);
+  --shadow-color: rgba(36, 18, 63, .08);
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --page-bg: #111019;
+  --surface-bg: #191724;
+  --text-primary: #f2efff;
+  --text-secondary: #aaa3ba;
+  --border-color: #302b3d;
+  --accent: #a98aff;
+  --accent-hover: #c2adff;
+  --card-bg: #1c1928;
+  --nav-bg: rgba(17, 16, 25, .92);
+  --shadow-color: rgba(0, 0, 0, .25);
+}
+
+/* Smooth theme transitions */
+
+html {
+  background: var(--page-bg);
+}
+
+body,
+header,
+nav,
+section,
+footer,
+article,
+.card,
+.work-item {
+  transition:
+    background-color .25s ease,
+    color .25s ease,
+    border-color .25s ease;
+}
+
+/* Main page */
+
+body {
+  background-color: var(--page-bg);
+  color: var(--text-primary);
+}
+
+/* Common text */
+
+h1, h2, h3, h4, p, li, span {
+  color: inherit;
+}
+
+a {
+  color: var(--accent);
+}
+
+/* Navigation */
+
+header,
+.site-header,
+.navbar {
+  background-color: var(--nav-bg);
+}
+
+/* Cards and project sections */
+
+.work-item,
+.card {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+  box-shadow: 0 8px 30px var(--shadow-color);
+}
+
+/* Secondary surfaces */
+
+section:nth-of-type(even) {
+  background-color: var(--surface-bg);
+}
+
+/* Borders */
+
+hr,
+.work-item,
+.card {
+  border-color: var(--border-color);
+}
+
+/* Form controls */
+
+input,
+textarea,
+select {
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+/* Theme toggle */
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  background: var(--surface-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 17px;
+  transition: .2s ease;
+}
+
+.theme-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: rotate(12deg);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* Meow message in dark mode */
+
+html[data-theme="dark"] .meow-message {
+  background: #252132;
+  color: #f2efff;
+  border-color: #40365b;
+}
+
+html[data-theme="dark"] .meow-message p {
+  color: #f2efff;
+}
+
+html[data-theme="dark"] .meow-label {
+  color: #bca1ff;
+}
+
+/* Respect reduced-motion preferences */
+
+@media (prefers-reduced-motion: reduce) {
+  body,
+  header,
+  nav,
+  section,
+  footer,
+  article {
+    transition: none;
+  }
+}
+
+
