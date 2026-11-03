@@ -7,8 +7,17 @@
        ===================================================== -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101827">
-  <title>CV Access Dashboard</title>
+  <meta name="theme-color" content="#6226fb">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CV Manager">
+
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+
+  <title>CV Manager</title>
 
   <!-- =====================================================
        2. DASHBOARD STYLES
@@ -566,19 +575,14 @@
     // -----------------------------------------------------
     // 5.9 REVIEW REQUEST
     //
-    // IMPORTANT:
-    // The browser does NOT directly update the request
-    // status anymore.
-    //
-    // It calls the review-cv-request Edge Function.
+    // The browser calls the review-cv-request Edge Function.
     //
     // The Edge Function:
     //   1. Checks administrator authorization.
     //   2. Checks that the request is still pending.
     //   3. Updates the request status.
     //   4. Generates a 48-hour CV signed URL on approval.
-    //
-    // Email delivery will be added separately.
+    //   5. Sends the CV access email.
     // -----------------------------------------------------
     async function updateStatus(id, status, ...buttons) {
 
@@ -634,30 +638,30 @@
         return;
       }
 
-   // Display the actual result returned by the Edge Function.
-if (status === "approved") {
+      // Display the actual result returned by the Edge Function.
+      if (status === "approved") {
 
-  if (data.email_sent === true) {
+        if (data.email_sent === true) {
 
-    alert(
-      "Request approved successfully!\n\n" +
-      "CV access email has been sent to the recruiter.\n\n" +
-      "The CV link expires in 48 hours."
-    );
+          alert(
+            "Request approved successfully!\n\n" +
+            "CV access email has been sent to the recruiter.\n\n" +
+            "The CV link expires in 48 hours."
+          );
 
-  } else {
+        } else {
 
-    alert(
-      "Request approved, but email delivery failed.\n\n" +
-      "Please check Supabase Edge Function logs."
-    );
+          alert(
+            "Request approved, but email delivery failed.\n\n" +
+            "Please check Supabase Edge Function logs."
+          );
 
-  }
+        }
 
-} else {
+      } else {
 
-  alert("Request rejected successfully.");
-}
+        alert("Request rejected successfully.");
+      }
 
       // Refresh cards and counters
       await loadRequests();
@@ -747,6 +751,27 @@ if (status === "approved") {
       await loadRequests();
     }
 
+  </script>
+
+  <!-- CV Manager PWA service worker registration -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", async () => {
+        try {
+          const registration = await navigator.serviceWorker.register("/sw.js");
+
+          console.log(
+            "CV Manager service worker registered:",
+            registration.scope
+          );
+        } catch (error) {
+          console.error(
+            "CV Manager service worker registration failed:",
+            error
+          );
+        }
+      });
+    }
   </script>
 
 </body>
