@@ -1,1 +1,396 @@
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>CV Access Dashboard</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: #0b1120;
+      color: #e5e7eb;
+    }
+
+    button, input { font: inherit; }
+
+    .container {
+      width: min(1100px, 92%);
+      margin: 40px auto;
+    }
+
+    .panel {
+      background: #151e30;
+      border: 1px solid #293449;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    h1, h2, p { margin-top: 0; }
+
+    .muted { color: #9ca3af; }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0 14px;
+      border: 1px solid #374151;
+      border-radius: 8px;
+      background: #0b1120;
+      color: white;
+    }
+
+    button {
+      border: 0;
+      padding: 11px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button:disabled { opacity: .5; cursor: wait; }
+
+    .primary { background: #60a5fa; color: #07111f; }
+    .approve { background: #166534; color: white; }
+    .reject { background: #991b1b; color: white; }
+    .secondary { background: #374151; color: white; }
+
+    .hidden { display: none !important; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 20px 0;
+    }
+
+    .stat {
+      background: #0b1120;
+      padding: 18px;
+      border-radius: 12px;
+      border: 1px solid #293449;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 28px;
+      margin-top: 8px;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 18px 0;
+    }
+
+    .filters button.active { background: #2563eb; color: white; }
+
+    .request {
+      border: 1px solid #374151;
+      border-radius: 12px;
+      padding: 18px;
+      margin: 12px 0;
+      background: #101827;
+    }
+
+    .request h3 { margin: 0 0 8px; }
+
+    .request p {
+      margin: 7px 0;
+      overflow-wrap: anywhere;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      background: #374151;
+      margin: 8px 0;
+    }
+
+    .status.pending { background: #854d0e; }
+    .status.approved { background: #166534; }
+    .status.rejected { background: #991b1b; }
+
+    .actions { display: flex; gap: 8px; margin-top: 14px; }
+
+    #message { margin-top: 12px; color: #fbbf24; }
+
+    @media (max-width: 600px) {
+      .container { margin: 20px auto; }
+      .panel { padding: 17px; }
+      .stats { gap: 8px; }
+      .stat { padding: 12px; }
+      .stat strong { font-size: 22px; }
+      .actions button { flex: 1; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section id="loginPanel" class="panel" style="max-width:420px;margin:70px auto">
+      <h1>CV Access</h1>
+      <p class="muted">Private administrator dashboard</p>
+
+      <form id="loginForm">
+        <label for="email">Admin email</label>
+        <input id="email" type="email" required autocomplete="username"
+          value="sumanmandal.dev@gmail.com">
+
+        <label for="password">Password</label>
+        <input id="password" type="password" required
+          autocomplete="current-password">
+
+        <button class="primary" type="submit" style="width:100%">
+          Sign in
+        </button>
+      </form>
+      <p id="message" role="status"></p>
+    </section>
+
+    <section id="dashboard" class="hidden">
+      <div class="panel">
+        <div class="toolbar">
+          <div>
+            <h1>CV Access Dashboard</h1>
+            <p class="muted">Manage recruiter requests</p>
+          </div>
+          <button id="logoutButton" class="secondary">Sign out</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat">Pending<strong id="pendingCount">0</strong></div>
+          <div class="stat">Approved<strong id="approvedCount">0</strong></div>
+          <div class="stat">Rejected<strong id="rejectedCount">0</strong></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="toolbar">
+          <h2>Requests</h2>
+          <button id="refreshButton" class="secondary">Refresh</button>
+        </div>
+
+        <div class="filters">
+          <button class="secondary active" data-filter="all">All</button>
+          <button class="secondary" data-filter="pending">Pending</button>
+          <button class="secondary" data-filter="approved">Approved</button>
+          <button class="secondary" data-filter="rejected">Rejected</button>
+        </div>
+
+        <p id="requestMessage" class="muted">Loading requests...</p>
+        <div id="requestList"></div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { createClient } from
+      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
+    const SUPABASE_PUBLISHABLE_KEY = "YOUR_SUPABASE_PUBLISHABLE_KEY";
+
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const $ = (id) => document.getElementById(id);
+
+    let requests = [];
+    let currentFilter = "all";
+
+    function showMessage(message) {
+      $("message").textContent = message;
+    }
+
+    function showDashboard() {
+      $("loginPanel").classList.add("hidden");
+      $("dashboard").classList.remove("hidden");
+    }
+
+    function showLogin() {
+      $("dashboard").classList.add("hidden");
+      $("loginPanel").classList.remove("hidden");
+    }
+
+    async function loadRequests() {
+      $("requestMessage").textContent = "Loading requests...";
+
+      const { data, error } = await supabase
+        .from("cv_requests")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        $("requestMessage").textContent = error.message;
+        return;
+      }
+
+      requests = data || [];
+
+      $("pendingCount").textContent =
+        requests.filter(r => r.status === "pending").length;
+
+      $("approvedCount").textContent =
+        requests.filter(r => r.status === "approved").length;
+
+      $("rejectedCount").textContent =
+        requests.filter(r => r.status === "rejected").length;
+
+      renderRequests();
+    }
+
+    function renderRequests() {
+      const filtered = requests.filter(r =>
+        currentFilter === "all" || r.status === currentFilter
+      );
+
+      $("requestList").replaceChildren();
+
+      $("requestMessage").textContent =
+        filtered.length ? `${filtered.length} request(s)` : "No requests found.";
+
+      filtered.forEach(r => {
+        const card = document.createElement("article");
+        card.className = "request";
+
+        const title = document.createElement("h3");
+        title.textContent = r.full_name;
+
+        const company = document.createElement("p");
+        company.textContent =
+          `${r.company}${r.job_title ? " · " + r.job_title : ""}`;
+
+        const email = document.createElement("p");
+        email.textContent = r.email;
+
+        const purpose = document.createElement("p");
+        purpose.textContent = r.purpose;
+
+        const date = document.createElement("p");
+        date.className = "muted";
+        date.textContent = new Date(r.created_at).toLocaleString();
+
+        const status = document.createElement("span");
+        status.className = `status ${r.status}`;
+        status.textContent = r.status.toUpperCase();
+
+        card.append(title, company, email, purpose, date, status);
+
+        if (r.status === "pending") {
+          const actions = document.createElement("div");
+          actions.className = "actions";
+
+          const approve = document.createElement("button");
+          approve.className = "approve";
+          approve.textContent = "Approve";
+
+          const reject = document.createElement("button");
+          reject.className = "reject";
+          reject.textContent = "Reject";
+
+          approve.addEventListener("click", () =>
+            updateStatus(r.id, "approved", approve, reject)
+          );
+
+          reject.addEventListener("click", () =>
+            updateStatus(r.id, "rejected", approve, reject)
+          );
+
+          actions.append(approve, reject);
+          card.append(actions);
+        }
+
+        $("requestList").append(card);
+      });
+    }
+
+    async function updateStatus(id, status, ...buttons) {
+      if (!confirm(`Are you sure you want to ${status} this request?`)) {
+        return;
+      }
+
+      buttons.forEach(button => button.disabled = true);
+
+      const { error } = await supabase
+        .from("cv_requests")
+        .update({
+          status,
+          reviewed_at: new Date().toISOString()
+        })
+        .eq("id", id);
+
+      if (error) {
+        alert(`Could not update request: ${error.message}`);
+        buttons.forEach(button => button.disabled = false);
+        return;
+      }
+
+      await loadRequests();
+    }
+
+    $("loginForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      showMessage("Signing in...");
+
+      const { error } = await supabase.auth.signInWithPassword({
+        email: $("email").value.trim(),
+        password: $("password").value
+      });
+
+      if (error) {
+        showMessage(error.message);
+        return;
+      }
+
+      showMessage("");
+      showDashboard();
+      await loadRequests();
+    });
+
+    $("logoutButton").addEventListener("click", async () => {
+      await supabase.auth.signOut();
+      showLogin();
+    });
+
+    $("refreshButton").addEventListener("click", loadRequests);
+
+    document.querySelectorAll("[data-filter]").forEach(button => {
+      button.addEventListener("click", () => {
+        currentFilter = button.dataset.filter;
+
+        document.querySelectorAll("[data-filter]").forEach(item =>
+          item.classList.toggle("active", item === button)
+        );
+
+        renderRequests();
+      });
+    });
+
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (session) {
+      showDashboard();
+      await loadRequests();
+    }
+  </script>
+</body>
+</html>
