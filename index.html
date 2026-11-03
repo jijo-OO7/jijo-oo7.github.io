@@ -482,85 +482,121 @@
     </div>
   </footer>
 
-<!-- PURPLE: INTERACTIVE WEBSITE COMPANION -->
-<div class="purple-companion" id="purpleCompanion">
 
-  <div class="purple-bubble" id="purpleBubble" role="status">
-    <button class="purple-close" id="purpleClose"
-      aria-label="Dismiss message">×</button>
-    <span class="purple-bubble-label">PURPLE SAYS</span>
-    <p id="purpleMessage">Hey! I'm Purple. Meet Suman!</p>
+<!-- MEOW: INTERACTIVE VIRTUAL PET -->
+<div class="meow-pet" id="meowPet">
+
+  <div class="meow-message" id="meowMessage" role="status">
+    <span class="meow-label">MEOW SAYS</span>
+    <button id="meowClose" aria-label="Close message">×</button>
+    <p id="meowText">Hello human. What are we investigating today?</p>
   </div>
 
-  <button class="purple-cat" id="purpleCat"
-    type="button"
-    aria-label="Talk to Purple, your website companion"
-    aria-expanded="true">
+  <div class="meow-stage" id="meowStage">
 
-    <svg viewBox="0 0 120 110" role="img"
-      aria-label="Cute purple cat mascot">
+    <!-- PLAY BALL -->
+    <button class="meow-ball" id="meowBall"
+      aria-label="Play with Meow">
+      <span></span>
+    </button>
 
-      <!-- Tail -->
-      <path class="cat-tail"
-        d="M87 75 C112 68 112 42 99 39 C90 36 87 48 96 49"
-        fill="none" stroke="#6226fb"
-        stroke-width="9" stroke-linecap="round"/>
+    <!-- SLEEPING PILLOW -->
+    <div class="meow-pillow">
+      <span></span>
+    </div>
 
-      <!-- Body -->
-      <ellipse cx="59" cy="77" rx="31" ry="26"
-        fill="#6226fb"/>
+    <!-- CAT -->
+    <button class="meow-cat" id="meowCat"
+      aria-label="Meow the virtual pet. Click to interact.">
 
-      <!-- Feet -->
-      <ellipse cx="42" cy="96" rx="13" ry="7"
-        fill="#4918d8"/>
-      <ellipse cx="77" cy="96" rx="13" ry="7"
-        fill="#4918d8"/>
+      <svg viewBox="0 0 160 170"
+        xmlns="http://www.w3.org/2000/svg">
 
-      <!-- Head -->
-      <path d="M25 43 L28 9 L49 27
-        Q60 21 72 27 L94 9 L96 46
-        Q102 66 83 74 Q60 84 37 73
-        Q19 64 25 43Z"
-        fill="#7B4AFF"/>
+        <!-- Tail -->
+        <path class="meow-tail"
+          d="M112 132 Q150 130 143 101 Q140 87 127 96"
+          fill="none" stroke="#6226fb"
+          stroke-width="12" stroke-linecap="round"/>
 
-      <!-- Inner ears -->
-      <path d="M34 19 L32 40 L47 31Z"
-        fill="#D7C6FF"/>
-      <path d="M86 19 L88 40 L74 31Z"
-        fill="#D7C6FF"/>
+        <!-- Body -->
+        <ellipse cx="80" cy="126" rx="43" ry="35"
+          fill="#713bfa"/>
 
-      <!-- Eyes -->
-      <ellipse cx="46" cy="48" rx="4" ry="6"
-        fill="#24123F"/>
-      <ellipse cx="76" cy="48" rx="4" ry="6"
-        fill="#24123F"/>
+        <!-- Belly -->
+        <ellipse cx="80" cy="131" rx="23" ry="24"
+          fill="#bca1ff"/>
 
-      <!-- Nose -->
-      <path d="M57 57 Q61 53 65 57 Q61 63 57 57Z"
-        fill="#FFC0E0"/>
+        <!-- Feet -->
+        <ellipse cx="55" cy="151" rx="19" ry="9"
+          fill="#5122dc"/>
+        <ellipse cx="104" cy="151" rx="19" ry="9"
+          fill="#5122dc"/>
 
-      <!-- Mouth -->
-      <path d="M61 61 Q55 68 50 62 M61 61 Q67 68 72 62"
-        fill="none" stroke="#32165E"
-        stroke-width="2" stroke-linecap="round"/>
+        <!-- Head -->
+        <path
+          d="M34 65 L39 13 L69 39
+             Q80 33 91 39 L121 13
+             L126 65 Q136 105 80 111
+             Q24 105 34 65Z"
+          fill="#865aff"/>
 
-      <!-- Whiskers -->
-      <path d="M39 59 L19 55 M39 64 L18 66
-        M81 59 L101 55 M81 64 L102 66"
-        fill="none" stroke="#E4D8FF"
-        stroke-width="2" stroke-linecap="round"/>
+        <!-- Inner ears -->
+        <path d="M47 27 L44 57 L64 43Z"
+          fill="#e4d5ff"/>
+        <path d="M112 27 L115 57 L95 43Z"
+          fill="#e4d5ff"/>
 
-      <!-- Chest patch -->
-      <ellipse cx="59" cy="77" rx="14" ry="12"
-        fill="#B99BFF"/>
+        <!-- Eye whites -->
+        <ellipse cx="61" cy="69" rx="10" ry="12"
+          fill="white"/>
+        <ellipse cx="99" cy="69" rx="10" ry="12"
+          fill="white"/>
 
-    </svg>
+        <!-- Pupils: JavaScript will move these -->
+        <g id="meowEyes">
+          <circle class="meow-pupil" cx="63" cy="69" r="5"
+            fill="#24123f"/>
+          <circle class="meow-pupil" cx="101" cy="69" r="5"
+            fill="#24123f"/>
+        </g>
 
-    <span class="cat-shadow"></span>
-  </button>
+        <!-- Nose -->
+        <path d="M76 86 Q80 81 84 86 Q80 92 76 86Z"
+          fill="#ffb6d9"/>
+
+        <!-- Mouth -->
+        <path d="M80 91 Q74 99 68 94
+                 M80 91 Q86 99 92 94"
+          fill="none" stroke="#32165e"
+          stroke-width="2.5" stroke-linecap="round"/>
+
+        <!-- Whiskers -->
+        <path d="M48 85 L23 79 M48 92 L22 96
+                 M112 85 L137 79 M112 92 L138 96"
+          fill="none" stroke="#e4d8ff"
+          stroke-width="2" stroke-linecap="round"/>
+
+        <!-- Blush -->
+        <ellipse cx="46" cy="88" rx="7" ry="4"
+          fill="#f5a9d5" opacity=".7"/>
+        <ellipse cx="114" cy="88" rx="7" ry="4"
+          fill="#f5a9d5" opacity=".7"/>
+
+      </svg>
+
+    </button>
+
+    <!-- SLEEP INDICATOR -->
+    <div class="meow-sleep-symbol" aria-hidden="true">
+      Z<sup>z</sup>
+    </div>
+
+  </div>
+
+  <span class="meow-caption">MEOW · YOUR TINY COMPANION</span>
 
 </div>
-<!-- END PURPLE -->
+<!-- END MEOW -->
 
   <script src="/script.js"></script>
 </body>
