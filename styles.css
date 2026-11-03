@@ -1128,3 +1128,29 @@ button {
   }
 }
 
+
+/* PURPLE — CONTEXTUAL ACTION LINK */
+
+.purple-action {
+  display: inline-block;
+  margin-top: 10px;
+  color: #6226fb;
+  font-size: 10px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.purple-action:hover {
+  color: #4013c6;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* CAT INTERACTION */
+
+.purple-cat:focus-visible {
+  outline: 3px solid #6226fb;
+  outline-offset: 5px;
+  border-radius: 50%;
+}
