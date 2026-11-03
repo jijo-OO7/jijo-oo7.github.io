@@ -634,18 +634,30 @@
         return;
       }
 
-      // Display the result to the administrator
-      if (status === "approved") {
+   // Display the actual result returned by the Edge Function.
+if (status === "approved") {
 
-        alert(
-          "Request approved and CV access link generated.\n\n" +
-          "Automatic email delivery will be connected next."
-        );
+  if (data.email_sent === true) {
 
-      } else {
+    alert(
+      "Request approved successfully!\n\n" +
+      "CV access email has been sent to the recruiter.\n\n" +
+      "The CV link expires in 48 hours."
+    );
 
-        alert("Request rejected.");
-      }
+  } else {
+
+    alert(
+      "Request approved, but email delivery failed.\n\n" +
+      "Please check Supabase Edge Function logs."
+    );
+
+  }
+
+} else {
+
+  alert("Request rejected successfully.");
+}
 
       // Refresh cards and counters
       await loadRequests();
