@@ -1,14 +1,23 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <!-- =====================================================
+       1. PAGE METADATA
+       ===================================================== -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#101827">
   <title>CV Access Dashboard</title>
+
+  <!-- =====================================================
+       2. DASHBOARD STYLES
+       Dark theme, request cards, buttons and mobile layout
+       ===================================================== -->
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -17,7 +26,10 @@
       color: #e5e7eb;
     }
 
-    button, input { font: inherit; }
+    button,
+    input {
+      font: inherit;
+    }
 
     .container {
       width: min(1100px, 92%);
@@ -32,9 +44,15 @@
       margin-bottom: 20px;
     }
 
-    h1, h2, p { margin-top: 0; }
+    h1,
+    h2,
+    p {
+      margin-top: 0;
+    }
 
-    .muted { color: #9ca3af; }
+    .muted {
+      color: #9ca3af;
+    }
 
     input {
       width: 100%;
@@ -54,15 +72,36 @@
       font-weight: 600;
     }
 
-    button:disabled { opacity: .5; cursor: wait; }
+    button:disabled {
+      opacity: .5;
+      cursor: wait;
+    }
 
-    .primary { background: #60a5fa; color: #07111f; }
-    .approve { background: #166534; color: white; }
-    .reject { background: #991b1b; color: white; }
-    .secondary { background: #374151; color: white; }
+    .primary {
+      background: #60a5fa;
+      color: #07111f;
+    }
 
-    .hidden { display: none !important; }
+    .approve {
+      background: #166534;
+      color: white;
+    }
 
+    .reject {
+      background: #991b1b;
+      color: white;
+    }
+
+    .secondary {
+      background: #374151;
+      color: white;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Dashboard summary counters */
     .stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -83,6 +122,7 @@
       margin-top: 8px;
     }
 
+    /* Dashboard toolbars and filters */
     .toolbar {
       display: flex;
       justify-content: space-between;
@@ -98,8 +138,12 @@
       margin: 18px 0;
     }
 
-    .filters button.active { background: #2563eb; color: white; }
+    .filters button.active {
+      background: #2563eb;
+      color: white;
+    }
 
+    /* Individual recruiter request cards */
     .request {
       border: 1px solid #374151;
       border-radius: 12px;
@@ -108,13 +152,16 @@
       background: #101827;
     }
 
-    .request h3 { margin: 0 0 8px; }
+    .request h3 {
+      margin: 0 0 8px;
+    }
 
     .request p {
       margin: 7px 0;
       overflow-wrap: anywhere;
     }
 
+    /* Request status indicators */
     .status {
       display: inline-block;
       padding: 5px 10px;
@@ -124,115 +171,273 @@
       margin: 8px 0;
     }
 
-    .status.pending { background: #854d0e; }
-    .status.approved { background: #166534; }
-    .status.rejected { background: #991b1b; }
+    .status.pending {
+      background: #854d0e;
+    }
 
-    .actions { display: flex; gap: 8px; margin-top: 14px; }
+    .status.approved {
+      background: #166534;
+    }
 
-    #message { margin-top: 12px; color: #fbbf24; }
+    .status.rejected {
+      background: #991b1b;
+    }
 
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    #message {
+      margin-top: 12px;
+      color: #fbbf24;
+    }
+
+    /* Responsive layout for mobile devices */
     @media (max-width: 600px) {
-      .container { margin: 20px auto; }
-      .panel { padding: 17px; }
-      .stats { gap: 8px; }
-      .stat { padding: 12px; }
-      .stat strong { font-size: 22px; }
-      .actions button { flex: 1; }
+      .container {
+        margin: 20px auto;
+      }
+
+      .panel {
+        padding: 17px;
+      }
+
+      .stats {
+        gap: 8px;
+      }
+
+      .stat {
+        padding: 12px;
+      }
+
+      .stat strong {
+        font-size: 22px;
+      }
+
+      .actions button {
+        flex: 1;
+      }
     }
   </style>
 </head>
+
 <body>
+
   <main class="container">
-    <section id="loginPanel" class="panel" style="max-width:420px;margin:70px auto">
+
+    <!-- ===================================================
+         3. ADMIN LOGIN PANEL
+         Only the administrator should be able to access
+         the dashboard.
+         =================================================== -->
+    <section
+      id="loginPanel"
+      class="panel"
+      style="max-width:420px;margin:70px auto"
+    >
       <h1>CV Access</h1>
       <p class="muted">Private administrator dashboard</p>
 
       <form id="loginForm">
+
         <label for="email">Admin email</label>
-        <input id="email" type="email" required autocomplete="username"
-          value="sumanmandal.dev@gmail.com">
+        <input
+          id="email"
+          type="email"
+          required
+          autocomplete="username"
+          value="sumanmandal.dev@gmail.com"
+        >
 
         <label for="password">Password</label>
-        <input id="password" type="password" required
-          autocomplete="current-password">
+        <input
+          id="password"
+          type="password"
+          required
+          autocomplete="current-password"
+        >
 
-        <button class="primary" type="submit" style="width:100%">
+        <button
+          class="primary"
+          type="submit"
+          style="width:100%"
+        >
           Sign in
         </button>
+
       </form>
+
       <p id="message" role="status"></p>
     </section>
 
+
+    <!-- ===================================================
+         4. ADMIN DASHBOARD
+         Hidden until successful administrator login.
+         =================================================== -->
     <section id="dashboard" class="hidden">
+
+      <!-- Dashboard header and summary -->
       <div class="panel">
+
         <div class="toolbar">
+
           <div>
             <h1>CV Access Dashboard</h1>
             <p class="muted">Manage recruiter requests</p>
           </div>
-          <button id="logoutButton" class="secondary">Sign out</button>
+
+          <button id="logoutButton" class="secondary">
+            Sign out
+          </button>
+
         </div>
 
+        <!-- Request statistics -->
         <div class="stats">
-          <div class="stat">Pending<strong id="pendingCount">0</strong></div>
-          <div class="stat">Approved<strong id="approvedCount">0</strong></div>
-          <div class="stat">Rejected<strong id="rejectedCount">0</strong></div>
+
+          <div class="stat">
+            Pending
+            <strong id="pendingCount">0</strong>
+          </div>
+
+          <div class="stat">
+            Approved
+            <strong id="approvedCount">0</strong>
+          </div>
+
+          <div class="stat">
+            Rejected
+            <strong id="rejectedCount">0</strong>
+          </div>
+
         </div>
       </div>
 
+
+      <!-- Recruiter request management -->
       <div class="panel">
+
         <div class="toolbar">
           <h2>Requests</h2>
-          <button id="refreshButton" class="secondary">Refresh</button>
+
+          <button id="refreshButton" class="secondary">
+            Refresh
+          </button>
         </div>
 
+        <!-- Filter requests by status -->
         <div class="filters">
-          <button class="secondary active" data-filter="all">All</button>
-          <button class="secondary" data-filter="pending">Pending</button>
-          <button class="secondary" data-filter="approved">Approved</button>
-          <button class="secondary" data-filter="rejected">Rejected</button>
+
+          <button class="secondary active" data-filter="all">
+            All
+          </button>
+
+          <button class="secondary" data-filter="pending">
+            Pending
+          </button>
+
+          <button class="secondary" data-filter="approved">
+            Approved
+          </button>
+
+          <button class="secondary" data-filter="rejected">
+            Rejected
+          </button>
+
         </div>
 
-        <p id="requestMessage" class="muted">Loading requests...</p>
+        <p id="requestMessage" class="muted">
+          Loading requests...
+        </p>
+
+        <!-- JavaScript renders recruiter cards here -->
         <div id="requestList"></div>
+
       </div>
     </section>
+
   </main>
 
+
+  <!-- =====================================================
+       5. DASHBOARD APPLICATION LOGIC
+       Supabase authentication, database queries and
+       Edge Function integration.
+       ===================================================== -->
   <script type="module">
+
+    // -----------------------------------------------------
+    // 5.1 Import Supabase JavaScript client
+    // -----------------------------------------------------
     import { createClient } from
       "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-    const SUPABASE_URL = "https://dwltwuycvszpeyzrhaar.supabase.co";
-    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_5EMeiHt8dUeq53ZPKhTZtg_9pezkhjO";
+
+    // -----------------------------------------------------
+    // 5.2 Supabase project configuration
+    // The publishable key is intended for frontend use.
+    // Database access is protected by Row Level Security.
+    // Never put the Supabase secret key here.
+    // -----------------------------------------------------
+    const SUPABASE_URL =
+      "https://dwltwuycvszpeyzrhaar.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_5EMeiHt8dUeq53ZPKhTZtg_9pezkhjO";
 
 
+    // Create Supabase client
     const supabase = createClient(
       SUPABASE_URL,
       SUPABASE_PUBLISHABLE_KEY
     );
 
+
+    // -----------------------------------------------------
+    // 5.3 Common DOM helper and dashboard state
+    // -----------------------------------------------------
     const $ = (id) => document.getElementById(id);
 
     let requests = [];
     let currentFilter = "all";
 
+
+    // -----------------------------------------------------
+    // 5.4 Display login messages
+    // -----------------------------------------------------
     function showMessage(message) {
       $("message").textContent = message;
     }
 
+
+    // -----------------------------------------------------
+    // 5.5 Show dashboard after successful login
+    // -----------------------------------------------------
     function showDashboard() {
       $("loginPanel").classList.add("hidden");
       $("dashboard").classList.remove("hidden");
     }
 
+
+    // -----------------------------------------------------
+    // 5.6 Show login screen after signing out
+    // -----------------------------------------------------
     function showLogin() {
       $("dashboard").classList.add("hidden");
       $("loginPanel").classList.remove("hidden");
     }
 
+
+    // -----------------------------------------------------
+    // 5.7 LOAD REQUESTS
+    // Fetch recruiter requests from Supabase.
+    // RLS ensures only the administrator can read them.
+    // -----------------------------------------------------
     async function loadRequests() {
+
       $("requestMessage").textContent = "Loading requests...";
 
       const { data, error } = await supabase
@@ -247,6 +452,7 @@
 
       requests = data || [];
 
+      // Update dashboard statistics
       $("pendingCount").textContent =
         requests.filter(r => r.status === "pending").length;
 
@@ -256,10 +462,18 @@
       $("rejectedCount").textContent =
         requests.filter(r => r.status === "rejected").length;
 
+      // Display the filtered request cards
       renderRequests();
     }
 
+
+    // -----------------------------------------------------
+    // 5.8 RENDER REQUEST CARDS
+    // Display recruiter details, company, email, purpose,
+    // submission date and current request status.
+    // -----------------------------------------------------
     function renderRequests() {
+
       const filtered = requests.filter(r =>
         currentFilter === "all" || r.status === currentFilter
       );
@@ -267,36 +481,58 @@
       $("requestList").replaceChildren();
 
       $("requestMessage").textContent =
-        filtered.length ? `${filtered.length} request(s)` : "No requests found.";
+        filtered.length
+          ? `${filtered.length} request(s)`
+          : "No requests found.";
 
       filtered.forEach(r => {
+
         const card = document.createElement("article");
         card.className = "request";
 
+        // Recruiter name
         const title = document.createElement("h3");
         title.textContent = r.full_name;
 
+        // Company and job title
         const company = document.createElement("p");
         company.textContent =
           `${r.company}${r.job_title ? " · " + r.job_title : ""}`;
 
+        // Recruiter email
         const email = document.createElement("p");
         email.textContent = r.email;
 
+        // Reason for requesting the CV
         const purpose = document.createElement("p");
         purpose.textContent = r.purpose;
 
+        // Request submission timestamp
         const date = document.createElement("p");
         date.className = "muted";
         date.textContent = new Date(r.created_at).toLocaleString();
 
+        // Request status badge
         const status = document.createElement("span");
         status.className = `status ${r.status}`;
         status.textContent = r.status.toUpperCase();
 
-        card.append(title, company, email, purpose, date, status);
+        card.append(
+          title,
+          company,
+          email,
+          purpose,
+          date,
+          status
+        );
 
+
+        // -------------------------------------------------
+        // 5.8.1 APPROVE / REJECT BUTTONS
+        // Buttons appear only for pending requests.
+        // -------------------------------------------------
         if (r.status === "pending") {
+
           const actions = document.createElement("div");
           actions.className = "actions";
 
@@ -308,10 +544,12 @@
           reject.className = "reject";
           reject.textContent = "Reject";
 
+          // Approve request
           approve.addEventListener("click", () =>
             updateStatus(r.id, "approved", approve, reject)
           );
 
+          // Reject request
           reject.addEventListener("click", () =>
             updateStatus(r.id, "rejected", approve, reject)
           );
@@ -324,32 +562,104 @@
       });
     }
 
+
+    // -----------------------------------------------------
+    // 5.9 REVIEW REQUEST
+    //
+    // IMPORTANT:
+    // The browser does NOT directly update the request
+    // status anymore.
+    //
+    // It calls the review-cv-request Edge Function.
+    //
+    // The Edge Function:
+    //   1. Checks administrator authorization.
+    //   2. Checks that the request is still pending.
+    //   3. Updates the request status.
+    //   4. Generates a 48-hour CV signed URL on approval.
+    //
+    // Email delivery will be added separately.
+    // -----------------------------------------------------
     async function updateStatus(id, status, ...buttons) {
-      if (!confirm(`Are you sure you want to ${status} this request?`)) {
+
+      const confirmed = confirm(
+        `Are you sure you want to ${status} this request?`
+      );
+
+      if (!confirmed) {
         return;
       }
 
-      buttons.forEach(button => button.disabled = true);
+      // Prevent multiple clicks while processing
+      buttons.forEach(button => {
+        button.disabled = true;
+      });
 
-      const { error } = await supabase
-        .from("cv_requests")
-        .update({
-          status,
-          reviewed_at: new Date().toISOString()
-        })
-        .eq("id", id);
+      // Call the Supabase Edge Function.
+      // Supabase client sends the logged-in user's session.
+      const { data, error } = await supabase.functions.invoke(
+        "review-cv-request",
+        {
+          body: {
+            request_id: id,
+            status: status
+          }
+        }
+      );
 
+      // Handle function/network errors
       if (error) {
-        alert(`Could not update request: ${error.message}`);
-        buttons.forEach(button => button.disabled = false);
+        console.error("Review function error:", error);
+
+        alert(
+          `Could not review request: ${error.message}`
+        );
+
+        buttons.forEach(button => {
+          button.disabled = false;
+        });
+
         return;
       }
 
+      // Handle application errors returned by the function
+      if (data?.error) {
+
+        alert(data.error);
+
+        buttons.forEach(button => {
+          button.disabled = false;
+        });
+
+        return;
+      }
+
+      // Display the result to the administrator
+      if (status === "approved") {
+
+        alert(
+          "Request approved and CV access link generated.\n\n" +
+          "Automatic email delivery will be connected next."
+        );
+
+      } else {
+
+        alert("Request rejected.");
+      }
+
+      // Refresh cards and counters
       await loadRequests();
     }
 
+
+    // -----------------------------------------------------
+    // 5.10 ADMIN LOGIN
+    // Authenticate administrator using Supabase Auth.
+    // -----------------------------------------------------
     $("loginForm").addEventListener("submit", async (event) => {
+
       event.preventDefault();
+
       showMessage("Signing in...");
 
       const { error } = await supabase.auth.signInWithPassword({
@@ -363,35 +673,69 @@
       }
 
       showMessage("");
+
       showDashboard();
+
       await loadRequests();
     });
 
+
+    // -----------------------------------------------------
+    // 5.11 ADMIN LOGOUT
+    // End the current Supabase session.
+    // -----------------------------------------------------
     $("logoutButton").addEventListener("click", async () => {
+
       await supabase.auth.signOut();
+
       showLogin();
     });
 
+
+    // -----------------------------------------------------
+    // 5.12 REFRESH BUTTON
+    // Manually fetch the latest recruiter requests.
+    // -----------------------------------------------------
     $("refreshButton").addEventListener("click", loadRequests);
 
+
+    // -----------------------------------------------------
+    // 5.13 REQUEST FILTERS
+    // Switch between all, pending, approved and rejected.
+    // -----------------------------------------------------
     document.querySelectorAll("[data-filter]").forEach(button => {
+
       button.addEventListener("click", () => {
+
         currentFilter = button.dataset.filter;
 
-        document.querySelectorAll("[data-filter]").forEach(item =>
-          item.classList.toggle("active", item === button)
-        );
+        // Highlight the selected filter
+        document.querySelectorAll("[data-filter]").forEach(item => {
+          item.classList.toggle("active", item === button);
+        });
 
         renderRequests();
       });
     });
 
-    const { data: { session } } = await supabase.auth.getSession();
+
+    // -----------------------------------------------------
+    // 5.14 SESSION RESTORATION
+    // If an administrator already has an active session,
+    // show the dashboard without requiring another login.
+    // -----------------------------------------------------
+    const {
+      data: { session }
+    } = await supabase.auth.getSession();
 
     if (session) {
+
       showDashboard();
+
       await loadRequests();
     }
+
   </script>
+
 </body>
 </html>
