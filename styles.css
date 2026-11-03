@@ -1636,4 +1636,103 @@ html[data-theme="dark"] .meow-label {
   }
 }
 
+/* =========================================
+   CV REQUEST FORM
+   ========================================= */
+
+.cv-request-form {
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.cv-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.cv-request-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cv-request-form input,
+.cv-request-form textarea {
+  width: 100%;
+  padding: 13px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.cv-request-form input::placeholder,
+.cv-request-form textarea::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+.cv-request-form input:focus,
+.cv-request-form textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(113, 59, 250, 0.12);
+}
+
+.cv-request-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.cv-request-form button {
+  align-self: flex-start;
+  border: none;
+  cursor: pointer;
+}
+
+.cv-request-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+#cvRequestMessage {
+  min-height: 20px;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+#cvRequestMessage.success {
+  color: #168653;
+}
+
+#cvRequestMessage.error {
+  color: #dc4545;
+}
+
+/* Mobile form layout */
+@media (max-width: 620px) {
+  .cv-form-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .cv-request-form {
+    gap: 20px;
+  }
+
+  .cv-request-form button {
+    width: 100%;
+  }
+}
 
