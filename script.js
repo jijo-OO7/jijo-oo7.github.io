@@ -1,222 +1,262 @@
 
-/* =========================================
-   SUMAN MANDAL — WEBSITE INTERACTIONS
-   ========================================= */
-
 document.addEventListener("DOMContentLoaded", () => {
+  // =========================================
+  // MEOW — INTERACTIVE VIRTUAL PET
+  // =========================================
 
-  // COPYRIGHT YEAR
-  const yearElement = document.getElementById("year");
+  const pet = document.getElementById("meowPet");
+  const cat = document.getElementById("meowCat");
+  const ball = document.getElementById("meowBall");
+  const message = document.getElementById("meowMessage");
+  const messageText = document.getElementById("meowText");
+  const closeButton = document.getElementById("meowClose");
+  const pupils = document.querySelectorAll(".meow-pupil");
+  const stage = document.getElementById("meowStage");
 
-  if (yearElement) {
-    yearElement.textContent = new Date().getFullYear();
-  }
+  if (!pet || !cat || !ball || !message || !messageText) return;
 
-  // MOBILE NAVIGATION
-  const menuToggle = document.querySelector(".menu-toggle");
-  const navigation = document.querySelector("#primary-nav");
+  let idleTimer;
+  let messageTimer;
+  let lastTarget = "";
+  let isSleeping = false;
 
-  if (menuToggle && navigation) {
-    menuToggle.addEventListener("click", () => {
-      const isOpen = navigation.classList.toggle("is-open");
+  const defaultMessages = [
+    "Hello human. What are we investigating today?",
+    "I inspected your code. It needs more cat comments.",
+    "Are we shipping something or just looking busy?",
+    "Remember: every great engineer needs a nap.",
+    "I would help debug, but I am a cat.",
+    "Your keyboard looks suspiciously comfortable."
+  ];
 
-      menuToggle.setAttribute("aria-expanded", String(isOpen));
-      menuToggle.setAttribute(
-        "aria-label",
-        isOpen ? "Close navigation" : "Open navigation"
-      );
-    });
+  const projectMessages = [
+    "Kubescape? Excellent. Security is important. So is my security blanket.",
+    "OpenTelemetry! I am monitoring your cursor movements.",
+    "Knative? I approve of event-driven architecture. Very cat-like.",
+    "Regolibrary! I hope those rules include a rule about feeding cats.",
+    "Open source is great. Does it come with open tuna?",
+    "Another contribution? Your GitHub graph approves."
+  ];
 
-    navigation.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        navigation.classList.remove("is-open");
-        menuToggle.setAttribute("aria-expanded", "false");
-        menuToggle.setAttribute("aria-label", "Open navigation");
-      });
-    });
+  // -----------------------------------------
+  // MESSAGE SYSTEM
+  // -----------------------------------------
 
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        navigation.classList.remove("is-open");
-        menuToggle.setAttribute("aria-expanded", "false");
-        menuToggle.setAttribute("aria-label", "Open navigation");
-      }
-    });
-  }
+  function showMessage(text, duration = 5000) {
+    messageText.textContent = text;
+    message.classList.add("is-visible");
 
-  // PURPLE — INTERACTIVE CAT COMPANION
-  const companion = document.getElementById("purpleCompanion");
-  const cat = document.getElementById("purpleCat");
-  const bubble = document.getElementById("purpleBubble");
-  const message = document.getElementById("purpleMessage");
-  const closeButton = document.getElementById("purpleClose");
+    clearTimeout(messageTimer);
 
-  if (!companion || !cat || !bubble || !message) {
-    return;
-  }
-
-  const suggestions = {
-    top: {
-      text: "Hey! I'm Purple. Welcome to Suman's corner of the internet!",
-      link: "#work",
-      action: "Explore his work"
-    },
-
-    work: {
-      text: "Lots of open-source engineering here! Start with Kubescape.",
-      link: "https://github.com/kubescape/kubescape",
-      action: "Explore Kubescape"
-    },
-
-    writing: {
-      text: "Curious about how Suman protects security scan reports? Read this!",
-      link: "https://kubescape.io/blog/2026/07/24/kubescape-report-metadata-protection/",
-      action: "Read the article"
-    },
-
-    about: {
-      text: "Go, Kubernetes, security and observability. That's his world!",
-      link: "#about",
-      action: "See his background"
+    if (duration > 0) {
+      messageTimer = setTimeout(() => {
+        message.classList.remove("is-visible");
+      }, duration);
     }
+  }
+
+  function hideMessage() {
+    message.classList.remove("is-visible");
+    clearTimeout(messageTimer);
+  }
+
+  function randomMessage(messages) {
+    return messages[Math.floor(Math.random() * messages.length)];
+  }
+
+  // -----------------------------------------
+  // WAKE UP AND IDLE
+  // -----------------------------------------
+
+  function wakeMeow() {
+    if (isSleeping) {
+      isSleeping = false;
+      pet.classList.remove("is-sleeping");
+      showMessage("I'm awake! Did someone say tuna?", 4500);
+    }
+  }
+
+  function resetIdleTimer() {
+    clearTimeout(idleTimer);
+
+    if (isSleeping) return;
+
+    idleTimer = setTimeout(() => {
+      isSleeping = true;
+      pet.classList.remove("is-playing");
+      pet.classList.add("is-sleeping");
+      hideMessage();
+    }, 30000);
+  }
+
+  // -----------------------------------------
+  // CAT INTERACTION
+  // -----------------------------------------
+
+  cat.addEventListener("click", () => {
+    if (isSleeping) {
+      wakeMeow();
+    } else {
+      showMessage(randomMessage(defaultMessages), 5000);
+    }
+
+    resetIdleTimer();
+  });
+
+  // -----------------------------------------
+  // EYES FOLLOW THE POINTER
+  // -----------------------------------------
+
+  document.addEventListener("pointermove", (event) => {
+    if (isSleeping) return;
+
+    const catRect = cat.getBoundingClientRect();
+    const centerX = catRect.left + catRect.width / 2;
+    const centerY = catRect.top + catRect.height / 2;
+
+    const angle = Math.atan2(
+      event.clientY - centerY,
+      event.clientX - centerX
+    );
+
+    const distance = Math.min(
+      3,
+      Math.hypot(event.clientX - centerX, event.clientY - centerY) / 100
+    );
+
+    const x = Math.cos(angle) * distance;
+    const y = Math.sin(angle) * distance;
+
+    pupils.forEach((pupil) => {
+      pupil.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    resetIdleTimer();
+  });
+
+  // -----------------------------------------
+  // PROJECT AND SECTION REACTIONS
+  // -----------------------------------------
+
+  const projectCards = document.querySelectorAll(".work-item");
+
+  projectCards.forEach((card, index) => {
+    card.addEventListener("pointerenter", () => {
+      wakeMeow();
+
+      const text =
+        projectMessages[index % projectMessages.length];
+
+      showMessage(text, 4500);
+      resetIdleTimer();
+    });
+  });
+
+  const sectionMessages = {
+    "#top": "Welcome! I was just supervising this website.",
+    "#writing": "Reading time! I prefer books about fish.",
+    "#about": "A little about the human behind the keyboard. Interesting!",
+    "#work": "Look at all that engineering. I am impressed. Mostly."
   };
 
-  let currentSection = "top";
-  let lastMessage = "";
-  let walkingTimeout;
-  let dismissed = false;
+  Object.entries(sectionMessages).forEach(([selector, text]) => {
+    const section = document.querySelector(selector);
 
-  // Show a message
-  function showMessage(text, link, action) {
-    if (dismissed) return;
+    if (!section) return;
 
-    message.textContent = text;
-
-    // Remove any previous action
-    const oldAction = bubble.querySelector(".purple-action");
-
-    if (oldAction) {
-      oldAction.remove();
-    }
-
-    // Add contextual action
-    if (link && action) {
-      const actionLink = document.createElement("a");
-
-      actionLink.className = "purple-action";
-      actionLink.href = link;
-      actionLink.textContent = action + " ↗";
-
-      if (link.startsWith("https://")) {
-        actionLink.target = "_blank";
-        actionLink.rel = "noopener noreferrer";
-      }
-
-      bubble.appendChild(actionLink);
-    }
-
-    bubble.classList.remove("is-hidden");
-    cat.setAttribute("aria-expanded", "true");
-    lastMessage = text;
-  }
-
-  // Detect which section the visitor is reading
-  const sections = [
-    { id: "top", element: document.getElementById("top") },
-    { id: "work", element: document.getElementById("work") },
-    { id: "writing", element: document.getElementById("writing") },
-    { id: "about", element: document.getElementById("about") }
-  ].filter(section => section.element);
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const visibleSections = entries
-        .filter(entry => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-
-      if (!visibleSections.length) return;
-
-      const nextSection = sections.find(
-        section => section.element === visibleSections[0].target
-      );
-
-      if (!nextSection || nextSection.id === currentSection) return;
-
-      currentSection = nextSection.id;
-
-      const suggestion = suggestions[currentSection];
-
-      if (suggestion && suggestion.text !== lastMessage) {
-        showMessage(
-          suggestion.text,
-          suggestion.link,
-          suggestion.action
-        );
-      }
-
-      // Make Purple take a little stroll
-      companion.classList.add("is-walking");
-
-      clearTimeout(walkingTimeout);
-
-      walkingTimeout = setTimeout(() => {
-        companion.classList.remove("is-walking");
-      }, 1800);
-    },
-    {
-      rootMargin: "-20% 0px -35% 0px",
-      threshold: [0.1, 0.3, 0.5]
-    }
-  );
-
-  sections.forEach(section => {
-    observer.observe(section.element);
+    section.addEventListener("pointerenter", () => {
+      wakeMeow();
+      showMessage(text, 4500);
+      resetIdleTimer();
+    });
   });
 
-  // Click the cat to get another suggestion
-  cat.addEventListener("click", () => {
-    if (dismissed) return;
+  // -----------------------------------------
+  // PLAY WITH THE BALL
+  // -----------------------------------------
 
-    const suggestion = suggestions[currentSection] || suggestions.top;
+  ball.addEventListener("click", () => {
+    wakeMeow();
 
-    if (bubble.classList.contains("is-hidden")) {
-      showMessage(
-        suggestion.text,
-        suggestion.link,
-        suggestion.action
-      );
-    } else {
-      showMessage(
-        "Psst! You can explore the projects, read the blog, or check out Suman's CV.",
-        "/assets/Suman-Mandal-CV.pdf",
-        "View the CV"
-      );
-    }
+    pet.classList.remove("is-playing");
 
-    companion.classList.add("is-walking");
+    // Restart the animation.
+    void ball.offsetWidth;
 
-    clearTimeout(walkingTimeout);
+    pet.classList.add("is-playing");
 
-    walkingTimeout = setTimeout(() => {
-      companion.classList.remove("is-walking");
-    }, 1200);
+    showMessage("THE BALL! MY GREATEST ENEMY. 🐾", 3500);
+
+    resetIdleTimer();
+
+    setTimeout(() => {
+      pet.classList.remove("is-playing");
+    }, 2200);
   });
 
-  // Dismiss Purple completely
+  // -----------------------------------------
+  // CLOSE MESSAGE
+  // -----------------------------------------
+
   if (closeButton) {
-    closeButton.addEventListener("click", () => {
-      dismissed = true;
-      companion.classList.add("is-dismissed");
-      observer.disconnect();
-      clearTimeout(walkingTimeout);
+    closeButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      hideMessage();
+      resetIdleTimer();
     });
   }
 
-  // Initial welcome message
-  showMessage(
-    suggestions.top.text,
-    suggestions.top.link,
-    suggestions.top.action
-  );
+  // -----------------------------------------
+  // USER ACTIVITY
+  // -----------------------------------------
 
+  ["click", "keydown", "touchstart", "scroll"].forEach((eventName) => {
+    document.addEventListener(eventName, () => {
+      if (isSleeping) return;
+      resetIdleTimer();
+    }, { passive: true });
+  });
+
+  // -----------------------------------------
+  // EXISTING MOBILE NAVIGATION
+  // -----------------------------------------
+
+  const menuToggle = document.querySelector(".menu-toggle");
+  const nav = document.querySelector(".nav-links");
+
+  if (menuToggle && nav) {
+    menuToggle.addEventListener("click", () => {
+      const expanded = menuToggle.getAttribute("aria-expanded") === "true";
+
+      menuToggle.setAttribute("aria-expanded", String(!expanded));
+      nav.classList.toggle("is-open");
+    });
+
+    nav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        nav.classList.remove("is-open");
+        menuToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
+
+  // -----------------------------------------
+  // COPYRIGHT YEAR
+  // -----------------------------------------
+
+  const year = document.getElementById("year");
+
+  if (year) {
+    year.textContent = new Date().getFullYear();
+  }
+
+  // -----------------------------------------
+  // LET THE FUN BEGIN
+  // -----------------------------------------
+
+  resetIdleTimer();
+
+  setTimeout(() => {
+    showMessage("Psst... I'm Meow. Click the ball if you dare.", 5500);
+  }, 2500);
 });
